@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursor Effects</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #171717;
+      --muted: #737373;
+      --border: #e5e5e5;
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --hover-bg: #f5f5f5;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0a0a0a;
+        --text: #ededed;
+        --muted: #a1a1a1;
+        --border: #262626;
+        --card-bg: rgba(20, 20, 20, 0.8);
+        --hover-bg: #1f1f1f;
+      }
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      transition: background-color 0.5s ease;
+      overflow-x: hidden;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      max-width: 600px;
+      padding: 60px 20px 100px;
+      width: 100%;
+    }
+    h1 {
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 300;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--text), var(--muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p.subtitle {
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 3rem;
+    }
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--text);
+      color: var(--bg);
+      border: 1px solid var(--text);
+      padding: 16px 32px;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      width: 100%;
+      margin: 8px 0;
+    }
+    .btn:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+    .btn.outline {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .btn.outline:hover {
+      background: var(--hover-bg);
+      border-color: var(--text);
+    }
+    .instructions-container {
+      text-align: left;
+      margin-top: 10px;
+    }
+    .instruction-step {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border);
+    }
+    .instruction-step:last-child {
+      border-bottom: none;
+    }
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .step-title {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+    .show-example-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .step-image {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 8px;
+      display: none;
+      border: 1px solid var(--border);
+    }
+    .footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 20px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+    #grid-canvas { opacity: 0.6; }
+  </style>
+</head>
+<body>
+
+  <canvas id="grid-canvas"></canvas>
+
+  <div class="content">
+    <h1>Cursor Effects</h1>
+    <p class="subtitle">100+ стилей частиц для вашего браузера.<br>Задонатьте на будущее продвижения этого проекта <a href="https://www.donationalerts.com/r/aleksandr130" style="color: cadetblue;">сдесь.</a><br>Cсылка на <a href="#" style="color: cadetblue;"> GitHub</a> со всеми файлами.</p>
+
+    <div class="card">
+      <a href="effects.html" class="btn">Выбрать эффект</a>
+    </div>
+
+    <div class="card">
+      <a href="cursor-particles-extension.zip" download class="btn outline">Скачать расширение</a>
+
+      <div class="instructions-container">
+        <div class="instruction-step">
+          <div class="step-header">
+            <span class="step-title">1. Распакуйте архив</span>
+            <button class="show-example-btn" onclick="toggleImage('img1')">показать пример</button>
+          </div>
+          <img src="step1-unzip.png" id="img1" class="step-image" alt="Unzip example">
+          <p style="font-size: 0.85rem; color: var(--muted);">Нажмите правой кнопкой на архив и выберите "Извлечь все". <br>Выберете место куда разархивировать.</p>
+        </div>
+
+        <div class="instruction-step">
+          <div class="step-header">
+            <span class="step-title">2. Откройте "chrome://extensions"</span>
+            <button class="show-example-btn" onclick="toggleImage('img2')">показать пример</button>
+          </div>
+          <img src="step2-unzip.png" id="img2" class="step-image" alt="Extensions page">
+          <p style="font-size: 0.85rem; color: var(--muted);">Введите этот адрес в строку браузера.</p>
+        </div>
+
+        <div class="instruction-step">
+          <div class="step-header">
+            <span class="step-title">3. Включите «Режим разработчика»</span>
+            <button class="show-example-btn" onclick="toggleImage('img3')">показать пример</button>
+          </div>
+          <img src="step3-unzip.png" id="img3" class="step-image" alt="Dev mode">
+          <p style="font-size: 0.85rem; color: var(--muted);">Переключатель находится в правом верхнем углу.</p>
+        </div>
+
+        <div class="instruction-step">
+          <div class="step-header">
+            <span class="step-title">4. Загрузите распакованное расширение</span>
+            <button class="show-example-btn" onclick="toggleImage('img4')">показать пример</button>
+          </div>
+          <img src="step4-unzip.png" id="img4" class="step-image" alt="Load unpacked">
+          <p style="font-size: 0.85rem; color: var(--muted);">Нажмите кнопку "Загрузить распакованное" и выберите распакованную ранее папку.</p>
+        </div>
+
+        <div class="instruction-step">
+          <div class="step-header">
+            <span class="step-title">5. Выберите эффект и сохраните</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--muted);">Откройте страницу «Выбрать эффект», кликните по карточке эффекта (она подсветится) — это сохранит название. Затем нажмите «Копировать название» зайдите на значок пазла в правом верхнем углу и выберете это расширение, затем вставьте в строку название эффекта и нажмите кнопку применить.</p>
+        </div>
+
+        <div class="instruction-step">
+          <div class="step-header">
+            <span class="step-title">6. Перезагрузите страницу</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--muted);">Нажмите CTRL+R на странице, чтобы эффекты заработали, на не обновленных страницах не будет работать, обновлять нужно только с самого начала, потом не нужно.</p>
+        </div>
+
+        <div class="instruction-step">
+          <div class="step-header">
+            <span class="step-title">Примечания:</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--muted);">Лучше закрепите расширение, чтобы вам было легче его находить.</p>
+        </div>
+
+      </div>
+    </div>
+  </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <label for="img">
+    <img url = "https://avatars.mds.yandex.net/i?id=d2fa0896141e35a90178d324bf47aa9c_l-5234314-images-thumbs&n=13">
+  </label>
+
+  <script>
+    function toggleImage(id) {
+      const img = document.getElementById(id);
+      const isVisible = img.style.display === 'block';
+      img.style.display = isVisible ? 'none' : 'block';
+    }
+
+    const gridCanvas = document.getElementById('grid-canvas');
+    const gCtx = gridCanvas.getContext('2d');
+    let points = [];
+    const mouse = { x: -2000, y: -2000 };
+
+    function initGrid() {
+      gridCanvas.width = window.innerWidth;
+      gridCanvas.height = window.innerHeight;
+      points = [];
+      const spacing = 80;
+      for (let x = 0; x <= gridCanvas.width + spacing; x += spacing) {
+        for (let y = 0; y <= gridCanvas.height + spacing; y += spacing) {
+          points.push({ x, y, ox: x, oy: y, vx: 0, vy: 0 });
+        }
+      }
+    }
+
+    function animateGrid() {
+      gCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      gCtx.fillStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+
+      points.forEach(p => {
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const radius = 200;
+
+        if (dist < radius) {
+          const force = (radius - dist) / radius;
+          const angle = Math.atan2(dy, dx);
+          p.vx -= Math.cos(angle) * force * 0.5;
+          p.vy -= Math.sin(angle) * force * 0.5;
+        }
+
+        p.vx += (p.ox - p.x) * 0.05;
+        p.vy += (p.oy - p.y) * 0.05;
+        p.vx *= 0.9;
+        p.vy *= 0.9;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        gCtx.beginPath();
+        gCtx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+        gCtx.fill();
+      });
+      requestAnimationFrame(animateGrid);
+    }
+
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    window.addEventListener('resize', initGrid);
+    initGrid();
+    animateGrid();
+  </script>
+</body>
+</html>

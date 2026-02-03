@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Cursor Particles</title>
+  <style>
+    body {
+      width: 320px;
+      padding: 20px;
+      font-family: sans-serif;
+      background: #f8f9fa;
+      color: #212529;
+      margin: 0;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: #121212; color: #e0e0e0; }
+    }
+    h3 { margin: 0 0 16px 0; font-weight: 600; }
+    .current { 
+      padding: 12px; 
+      background: #e9ecef; 
+      border-radius: 8px; 
+      word-break: break-word;
+    }
+    @media (prefers-color-scheme: dark) {
+      .current { background: #2a2a2a; }
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 12px;
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .status {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h3>Cursor Particles</h3>
+  <div class="current" id="current">Загрузка...</div>
+  <button class="btn" id="stop">Остановить эффект</button>
+  <div class="status" id="status"></div>
+
+  <script>
+    const currentEl = document.getElementById('current');
+    const statusEl = document.getElementById('status');
+    const stopBtn = document.getElementById('stop');
+
+    function getEffectName(config) {
+      if (!config) return 'Не выбран';
+      return config.name || config.id || 'Пользовательский эффект';
+    }
+
+    chrome.storage.local.get(['ce_config'], (result) => {
+      const config = result.ce_config;
+      currentEl.textContent = getEffectName(config);
+    });
+
+    stopBtn.addEventListener('click', () => {
+      chrome.storage.local.set({ ce_config: null }, () => {
+        currentEl.textContent = 'Эффект остановлен';
+        statusEl.textContent = '✅ Остановлено';
+        setTimeout(() => statusEl.textContent = '', 1500);
+      });
+    });
+  </script>
+</body>
+</html>
