@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Cursor Particles",
+  "version": "2.1",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
